@@ -1,0 +1,172 @@
+set laststatus=2 " makes airline visible
+set t_Co=256
+
+" store temporary files in central folders
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
+
+" show trailing whitespaces
+set list
+set listchars=tab:\ \ ,trail:·
+
+" set map leader
+let mapleader=" "
+
+" set shortcuts for file saving / quitting
+nnoremap <leader>x :x<cr>
+nnoremap <leader>q :q<cr>
+nnoremap <leader>w :w<cr>
+nnoremap <leader>b :bp\|bd #<cr>
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" go into paste mode (without auto indent)
+set pastetoggle=<F4>
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'vim-airline/vim-airline'
+" Plugin 'vim-airline/vim-airline-themes'
+Plugin 'tpope/vim-fugitive'
+Plugin 'kien/ctrlp.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'ciaranm/detectindent'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'AdhocMan/vim-adhoc-plugins'
+" Plugin 'vim-scripts/AutoComplPop' " simple auto complete
+" Plugin 'KevinGoodsell/vim-csexact' ";bug: causes shrinkage in first opnening
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" load theme after plugins have been loaded
+colorscheme darkskies
+
+set relativenumber
+set number
+set incsearch " search immedeatily
+" colorscheme codeschool
+let g:airline_powerline_fonts = 1
+
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+" set mixed indent warning detection
+let g:airline#extensions#whitespace#mixed_indent_algo = 2
+
+" set airline theme
+let g:airline_theme='blueskies_airline'
+
+" detectindent optoins
+let g:detectindent_preferred_indent = 4
+let g:detectindent_preferred_expandtab = 0
+autocmd BufReadPost * :DetectIndent " run on file opening
+
+" remap next buffer keys
+nnoremap <C-m> :bnext<CR>
+nnoremap <C-n> :bprevious<CR>
+set hidden " switch without saving
+
+" search and replace under cursor
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+
+" easymotion: set prefix command to leader
+" map <Leader> <Plug>(easymotion-prefix)
+map  <C-f> <Plug>(easymotion-bd-f)
+nmap <C-f> <Plug>(easymotion-overwin-f)
+
+" Open new split panes to right and bottom, which feels more natural
+" set splitbelow
+set splitright
+
+" scrolling
+set scrolloff=8 "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1 " only used when wrap lines is off
+
+" set drop down menu mode, disable preview window
+set completeopt=menu,menuone
+
+" limit height of drop menu
+set pumheight=8
+
+" set ignore list, used for ctrlp
+set wildignore+=*/bin/*,*.so,*.swp,*.zip,*/build/*
+
+" NERDCommenter settings
+let g:NERDSpaceDelims = 1 " add space after comment delimiter
+let g:NERDDefaultAlign = 'left' " allign comment delimiter
+
+" YouCompleteMe options
+let g:ycm_extra_conf_globlist = ['~/Programming/*'] " set which ycm_extra_conf.py will be loaded automatically
+let g:ycm_complete_in_comments = 1 " enable completion in comments
+let g:ycm_seed_identifiers_with_syntax = 1 " add language keywords to completion
+nnoremap <leader>d :YcmCompleter GoTo<CR>
+let g:ycm_always_populate_location_list = 1
+nnoremap <leader>n :lnext<cr>
+nnoremap <leader>p :lprevious<cr>
+" hi YcmErrorSection ctermbg=Red " set error highlight color
+
+" use tabs for indentation
+set shiftwidth=4
+set tabstop=4
+set expandtab "use whitepsaces instead
+
+" clang format options
+" let g:clang_format_fallback_style = '{BasedOnStyle: Google, SpacesBeforeTrailingComments: 1, ColumnLimit: 100, AccessModifierOffset: -2}'
+map <leader>f :pyf /usr/share/clang/clang-format-6.0/clang-format.py<cr>
+
+" set make command
+set makeprg=make\ -j4\ -C\ build
+
+" error parsing of make command
+set errorformat^=%-G%f:%l:\ warning:%m
+
+" make command shortcut
+" nnoremap <C-b> :terminal make -C build<cr>
+
+" set cuda files to cpp files for YouCompleteMe
+autocmd BufNewFile,BufRead *.cuh set filetype=cpp
+autocmd BufNewFile,BufRead *.cu set filetype=cpp
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""" NEOVIM SETTINGS """""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+" set cursor shape
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+" set ture color mode (more colors)
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=1 "old setting
+set termguicolors
+
+" exit terminal mode
+tnoremap <Esc> <C-\><C-n>
+endif
+
+" mapping to check color group under cursor
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
