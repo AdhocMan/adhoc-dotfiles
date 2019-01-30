@@ -23,8 +23,8 @@ function copy_with_backup {
 	# Note: will backup too much if source is file and target is directory
 	#  + No check if backup already exists
 	if [ -f $2 ] || [ -d $2]; then
-		mv $2 ${2}_old_backup
-		echo "Moved $2 to ${2}_old_backup"
+		mv $2 ${2}_backup_$(date +"%Y-%m-%d_%H-%M-%S")
+		echo "Moved $2 to ${2}_backup_$(date +"%Y-%m-%d_%H-%M-%S")"
 	fi
 	cp -r $1 $2
 }
