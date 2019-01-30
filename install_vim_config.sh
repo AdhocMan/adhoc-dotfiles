@@ -49,6 +49,11 @@ check_command_available git
 copy_with_backup ${script_dir}/vim/vimrc ${home_dir}/.vimrc
 move_to_backup ${home_dir}/.vim
 move_to_backup ${home_dir}/.config/nvim
+mkdir ${home_dir}/.vim
+
+# create back and sawp folders
+mkdir ${home_dir}/.vim/backup
+mkdir ${home_dir}/.vim/swap
 
 # create nvim symlinks
 if ! [ -d ${home_dir}/.config]; then
