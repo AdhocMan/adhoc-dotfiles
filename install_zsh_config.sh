@@ -55,3 +55,6 @@ clone_git_repo https://github.com/zsh-users/zsh-autosuggestions.git ${oh_my_zsh_
 clone_git_repo https://github.com/zsh-users/zsh-syntax-highlighting.git ${oh_my_zsh_dir}/custom/plugins/zsh-syntax-highlighting
 
 copy_with_backup ${script_dir}/zsh/zshrc ${home_dir}/.zshrc
+# set user and path in zshrc
+sed -i 's|{HOME}|'${HOME}'|g' ${home_dir}/.zshrc
+sed -i 's|{USER}|'${USER}'|g' ${home_dir}/.zshrc
