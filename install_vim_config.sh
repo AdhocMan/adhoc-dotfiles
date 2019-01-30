@@ -51,6 +51,9 @@ move_to_backup ${home_dir}/.vim
 move_to_backup ${home_dir}/.config/nvim
 
 # create nvim symlinks
+if ! [ -d ${home_dir}/.config]; then
+	mkdir ${home_dir}/.config
+fi
 ln -s ${home_dir}/.vim ${home_dir}/.config/nvim
 ln -s ${home_dir}/.vimrc ${home_dir}/.vim/init.vim
 
