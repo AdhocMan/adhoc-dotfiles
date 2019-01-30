@@ -54,3 +54,7 @@ move_to_backup ${home_dir}/.config/nvim
 ln -s ${home_dir}/.vim ${home_dir}/.config/nvim
 ln -s ${home_dir}/.vimrc ${home_dir}/.vim/init.vim
 
+# clone vundle
+clone_git_repo https://github.com/VundleVim/Vundle.vim.git ${home_dir}/.vim/bundle/Vundle.vim
+
+echo "Run \":Plugin Install\"" in Vim to finish installation."
